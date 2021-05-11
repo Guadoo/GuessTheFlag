@@ -7,6 +7,28 @@
 
 import SwiftUI
 
+
+struct FlagImage: View {
+    
+    let countries: [String]
+    let number: Int
+
+    var body: some View {
+        Image(self.countries[number])
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.white, lineWidth: 0.5))
+            .shadow(color: .black, radius: 10)
+    }
+    
+    init(countries: [String], number: Int) {
+        self.countries = countries
+        self.number = number
+    }
+}
+
+
+
 struct ContentView: View{
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
@@ -35,11 +57,16 @@ struct ContentView: View{
                         // flag was tapped
                         self.flagTapped(number)
                     }, label: {
-                        Image(self.countries[number])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(Color.white, lineWidth: 0.5))
-                            .shadow(color: .black, radius: 10)
+//------------------------------------------------------------------------------------
+// Use standard Image view
+//------------------------------------------------------------------------------------
+//                        Image(self.countries[number])
+//                            .renderingMode(.original)
+//                            .clipShape(Capsule())
+//                            .overlay(Capsule().stroke(Color.white, lineWidth: 0.5))
+//                            .shadow(color: .black, radius: 10)
+                        
+                        FlagImage(countries: countries, number: number)
                         
                     })
                     .alert(isPresented: $showingScore, content: {
